@@ -29,11 +29,38 @@ const Tree = (arr) => {
         }
     }
 
+    const insert = (value, currentRoot) => {
+        // if the tree is empty, create the root node
+        if(currentRoot === null) {
+            
+            return
+        }
+        // compare the vale to insert with the current node's value
+        // if the value already exists, do not insert it
+        if(value === currentRoot.data) return
+        // if its smaller, go left
+        if(value < currentRoot.data) {
+            if(currentRoot.left === null) {
+                currentRoot.left = Node(value)
+                return
+            }
+            insert(value, currentRoot.left)
+        } else {
+            // if its larger, go right
+            if(currentRoot.right === null) {
+                currentRoot.right = Node(value)
+                return
+            }
+            insert(value, currentRoot.right)
+        }
+    }
+
     const root = buildTree()
 
     return {
         root: root,
-        prettyPrint: prettyPrint
+        prettyPrint: prettyPrint,
+        insert: insert,
     }
 }
 
