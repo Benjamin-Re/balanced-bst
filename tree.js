@@ -32,7 +32,6 @@ const Tree = (arr) => {
     const insert = (value, currentRoot) => {
         // if the tree is empty, create the root node
         if(currentRoot === null) {
-            
             return
         }
         // compare the vale to insert with the current node's value
@@ -55,12 +54,27 @@ const Tree = (arr) => {
         }
     }
 
+    const del = (value, node) => {
+        if(node === null) return
+        // case target is leaf: have parent point at null
+        if(node.data === value) {
+            return true
+        } else {
+            if(del(value, node.left)) {node.left = null}
+            if(del(value, node.right)) {node.right = null}
+        }
+        // case target has one child: have parent point at target child
+        // Case target has two children: get targets right child's leftmost child. Then remove the right childs leftmost child (the child that has no left). Replace target with the right childs leftmost child.
+
+    }
+
     const root = buildTree()
 
     return {
         root: root,
         prettyPrint: prettyPrint,
         insert: insert,
+        del: del
     }
 }
 
