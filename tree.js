@@ -31,22 +31,22 @@ const Tree = (arr) => {
 
     const insert = (value, currentRoot) => {
         // if the tree is empty, create the root node
-        if(currentRoot === null) {
+        if (currentRoot === null) {
             return
         }
         // compare the vale to insert with the current node's value
         // if the value already exists, do not insert it
-        if(value === currentRoot.data) return
+        if (value === currentRoot.data) return
         // if its smaller, go left
-        if(value < currentRoot.data) {
-            if(currentRoot.left === null) {
+        if (value < currentRoot.data) {
+            if (currentRoot.left === null) {
                 currentRoot.left = Node(value)
                 return
             }
             insert(value, currentRoot.left)
         } else {
             // if its larger, go right
-            if(currentRoot.right === null) {
+            if (currentRoot.right === null) {
                 currentRoot.right = Node(value)
                 return
             }
@@ -55,17 +55,16 @@ const Tree = (arr) => {
     }
 
     const del = (value, node) => {
-        if(node === null) return
-        // case target is leaf: have parent point at null
-        if(node.data === value) {
-            return true
-        } else {
-            if(del(value, node.left)) {node.left = null}
-            if(del(value, node.right)) {node.right = null}
-        }
-        // case target has one child: have parent point at target child
-        // Case target has two children: get targets right child's leftmost child. Then remove the right childs leftmost child (the child that has no left). Replace target with the right childs leftmost child.
-
+        if (!node) { return null }
+        // cases: leaf, one child, two children
+         if(value > node.data) {
+             node.right = del(value, node.right)
+         } else if(value < node.data) {
+            node.left = del(value, node.left)
+         } else {
+            if(!node.left && !node.right) { return null }
+         }
+         return node
     }
 
     const root = buildTree()
