@@ -62,7 +62,15 @@ const Tree = (arr) => {
          } else if(value < node.data) {
             node.left = del(value, node.left)
          } else {
-            if(!node.left && !node.right) { return null }
+            if(!node.left && !node.right) { return null } // leaf
+            if(!node.left) {
+                // one right child
+                return node.right
+            }
+            if(!node.right) {
+                // one left child
+                return node.left
+            }
          }
          return node
     }
