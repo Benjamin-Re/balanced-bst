@@ -53,7 +53,13 @@ const Tree = (arr) => {
             insert(value, currentRoot.right)
         }
     }
-
+    // get inorder successor (smallest element in the right subtree)
+    function getSuccessor(curr) {
+        curr = curr.right;
+        while (curr !== null && curr.left !== null)
+            curr = curr.left;
+        return curr;
+    }
     const del = (value, node) => {
         if (!node) { return null }
         // cases: leaf, one child, two children
@@ -70,6 +76,15 @@ const Tree = (arr) => {
             if(!node.right) {
                 // one left child
                 return node.left
+            }
+            if(node.left && node.right) {
+                // two children
+                // find successor
+                const successor = getSuccessor(node)
+                // replace target with successor
+                node.data = successor.data
+                // set target to null
+                node.right = del(node.right, successor.data)
             }
          }
          return node
