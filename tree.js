@@ -55,29 +55,32 @@ const Tree = (arr) => {
     }
     // get inorder successor (smallest element in the right subtree)
     function getSuccessor(curr) {
-        curr = curr.right;
-        while (curr !== null && curr.left !== null)
-            curr = curr.left;
-        return curr;
+        curr = curr.right
+        while (curr !== null && curr.left !== null) curr = curr.left
+        return curr
     }
     const del = (value, node) => {
-        if (!node) { return null }
+        if (!node) {
+            return null
+        }
         // cases: leaf, one child, two children
-         if(value > node.data) {
-             node.right = del(value, node.right)
-         } else if(value < node.data) {
+        if (value > node.data) {
+            node.right = del(value, node.right)
+        } else if (value < node.data) {
             node.left = del(value, node.left)
-         } else {
-            if(!node.left && !node.right) { return null } // leaf
-            if(!node.left) {
+        } else {
+            if (!node.left && !node.right) {
+                return null
+            } // leaf
+            if (!node.left) {
                 // one right child
                 return node.right
             }
-            if(!node.right) {
+            if (!node.right) {
                 // one left child
                 return node.left
             }
-            if(node.left && node.right) {
+            if (node.left && node.right) {
                 // two children
                 // find successor
                 const successor = getSuccessor(node)
@@ -86,25 +89,52 @@ const Tree = (arr) => {
                 // set target to null
                 node.right = del(node.right, successor.data)
             }
-         }
-         return node
+        }
+        return node
     }
 
     // returns the node with the given value.
     function findValue(value) {
         let current = root
-        while(current) {
-            if(current.data === value) {
+        while (current) {
+            if (current.data === value) {
                 return current
             }
-            if(value < current.data) {
+            if (value < current.data) {
                 current = current.left
             }
-            if(value > current.data) {
+            if (value > current.data) {
                 current = current.right
             }
         }
         return current
+    }
+
+    /* Write a levelOrderForEach(callback) function
+     that accepts a callback function as its parameter.
+      levelOrderForEach should traverse the tree in breadth-first level order 
+      and call the callback on each node as it traverses,
+       passing the whole node as an argument, 
+       levelOrderForEach may be implemented using either iteration or recursion. 
+       If no callback function is provided, throw an Error reporting that a callback is required. 
+       Tip: You will want to use an array acting as a queue to keep track of all the child nodes 
+       that you have yet to traverse and to add new ones to the list
+    */
+
+    function levelOrderForEach(cb) {
+        if(!cb) {
+            throw new Error('A callback needs to be provided')
+        }
+        if(!root) {
+            return 
+        }
+        let queue = [root]
+        while(queue.length > 0) {
+            const current = queue.shift()
+            cb(current)
+            if(current.left) { queue.push(current.left) }
+            if(current.right) { queue.push(current.right) }
+        }
     }
 
     const root = buildTree()
@@ -114,7 +144,8 @@ const Tree = (arr) => {
         prettyPrint: prettyPrint,
         insert: insert,
         del: del,
-        findValue: findValue
+        findValue: findValue,
+        levelOrderForEach: levelOrderForEach
     }
 }
 
