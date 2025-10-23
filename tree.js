@@ -90,13 +90,31 @@ const Tree = (arr) => {
          return node
     }
 
+    // returns the node with the given value.
+    function findValue(value) {
+        let current = root
+        while(current) {
+            if(current.data === value) {
+                return current
+            }
+            if(value < current.data) {
+                current = current.left
+            }
+            if(value > current.data) {
+                current = current.right
+            }
+        }
+        return current
+    }
+
     const root = buildTree()
 
     return {
         root: root,
         prettyPrint: prettyPrint,
         insert: insert,
-        del: del
+        del: del,
+        findValue: findValue
     }
 }
 
