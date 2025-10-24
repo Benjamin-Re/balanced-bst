@@ -120,21 +120,56 @@ const Tree = (arr) => {
        Tip: You will want to use an array acting as a queue to keep track of all the child nodes 
        that you have yet to traverse and to add new ones to the list
     */
-
+    // Breadth first traversal
     function levelOrderForEach(cb) {
-        if(!cb) {
+        if (!cb) {
             throw new Error('A callback needs to be provided')
         }
-        if(!root) {
-            return 
+        if (!root) {
+            return
         }
         let queue = [root]
-        while(queue.length > 0) {
+        while (queue.length > 0) {
             const current = queue.shift()
             cb(current)
-            if(current.left) { queue.push(current.left) }
-            if(current.right) { queue.push(current.right) }
+            if (current.left) {
+                queue.push(current.left)
+            }
+            if (current.right) {
+                queue.push(current.right)
+            }
         }
+    }
+    /* Depth first traversal*/
+    // Inorder left-root-right
+    function inOrderForEach(cb, node) {
+        if (!cb) {
+            throw new Error('A callback needs to be provided')
+        }
+        if(!node) {return}
+        inOrderForEach(cb, node.left)
+        cb(node)
+        inOrderForEach(cb, node.right)
+    }
+    // preorder root-left-right
+    function preOrderForEach(cb, node) {
+        if (!cb) {
+            throw new Error('A callback needs to be provided')
+        }
+        if(!node) {return}
+        cb(node)
+        preOrderForEach(cb, node.left)
+        preOrderForEach(cb, node.right)
+    }
+    // postorder left-right-root
+    function postOrderForEach(cb, node) {
+        if (!cb) {
+            throw new Error('A callback needs to be provided')
+        }
+        if(!node) {return}
+        inOrderForEach(cb, node.left)
+        inOrderForEach(cb, node.right)
+        cb(node)
     }
 
     const root = buildTree()
@@ -145,7 +180,10 @@ const Tree = (arr) => {
         insert: insert,
         del: del,
         findValue: findValue,
-        levelOrderForEach: levelOrderForEach
+        levelOrderForEach: levelOrderForEach,
+        inOrderForEach: inOrderForEach,
+        postOrderForEach: postOrderForEach,
+        preOrderForEach: preOrderForEach
     }
 }
 
