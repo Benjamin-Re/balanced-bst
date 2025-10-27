@@ -7,9 +7,10 @@ tree.insert(6, tree.root)
 tree.insert(8, tree.root)
 tree.del(8, tree.root)
 tree.prettyPrint(tree.root)
-console.log(tree.findValue(1))
+// console.log(tree.findValue(1))
 // tree.levelOrderForEach(print)
-tree.postOrderForEach(print, tree.root)
+// tree.postOrderForEach(print, tree.root)
+console.log(tree.height(1))
 
 function print(node) {
     console.log(node.data)

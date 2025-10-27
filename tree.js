@@ -95,6 +95,7 @@ const Tree = (arr) => {
 
     // returns the node with the given value.
     function findValue(value) {
+        if(typeof value !== 'number') { throw new Error('provide number value')}
         let current = root
         while (current) {
             if (current.data === value) {
@@ -107,19 +108,9 @@ const Tree = (arr) => {
                 current = current.right
             }
         }
-        return current
+        return null
     }
 
-    /* Write a levelOrderForEach(callback) function
-     that accepts a callback function as its parameter.
-      levelOrderForEach should traverse the tree in breadth-first level order 
-      and call the callback on each node as it traverses,
-       passing the whole node as an argument, 
-       levelOrderForEach may be implemented using either iteration or recursion. 
-       If no callback function is provided, throw an Error reporting that a callback is required. 
-       Tip: You will want to use an array acting as a queue to keep track of all the child nodes 
-       that you have yet to traverse and to add new ones to the list
-    */
     // Breadth first traversal
     function levelOrderForEach(cb) {
         if (!cb) {
@@ -172,6 +163,22 @@ const Tree = (arr) => {
         cb(node)
     }
 
+    function height(value) {
+        // height = the distance from the node to a leaf
+        if(!Number.isFinite(value)) { throw new Error('please provide a number for height(value)')}
+        let node = findValue(value)
+        console.log(`looking for height of ${value}`)
+        if(!node) return null // If the value is not found in the tree, the function should return null.
+        return heightRec(node)
+    }
+    function heightRec(node) {
+        if(!node) return 0 
+        // calc height of left and right subtree and return the bigger one
+        let heightLeft = heightRec(node.left) + 1
+        let heightRight = heightRec(node.right) + 1
+        return (heightLeft > heightRight) ? heightLeft : heightRight;
+    }
+
     const root = buildTree()
 
     return {
@@ -183,7 +190,8 @@ const Tree = (arr) => {
         levelOrderForEach: levelOrderForEach,
         inOrderForEach: inOrderForEach,
         postOrderForEach: postOrderForEach,
-        preOrderForEach: preOrderForEach
+        preOrderForEach: preOrderForEach,
+        height: height
     }
 }
 
