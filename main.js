@@ -10,7 +10,8 @@ tree.prettyPrint(tree.root)
 // console.log(tree.findValue(1))
 // tree.levelOrderForEach(print)
 // tree.postOrderForEach(print, tree.root)
-console.log(tree.height(1))
+console.log(tree.height(6))
+console.log(tree.depth(6))
 
 function print(node) {
     console.log(node.data)

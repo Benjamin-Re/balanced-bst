@@ -167,16 +167,35 @@ const Tree = (arr) => {
         // height = the distance from the node to a leaf
         if(!Number.isFinite(value)) { throw new Error('please provide a number for height(value)')}
         let node = findValue(value)
-        console.log(`looking for height of ${value}`)
         if(!node) return null // If the value is not found in the tree, the function should return null.
         return heightRec(node)
     }
     function heightRec(node) {
-        if(!node) return 0 
+        if(!node) return -1
         // calc height of left and right subtree and return the bigger one
         let heightLeft = heightRec(node.left) + 1
         let heightRight = heightRec(node.right) + 1
         return (heightLeft > heightRight) ? heightLeft : heightRight;
+    }
+
+    function depth(value) {
+        // depth = nr edges from a node to the tree's root
+        if(!Number.isFinite(value)) { throw new Error('please provide a number for depth(value)')}
+        let current = root
+        let i = 0
+        while(current !== null) {
+            i++
+            if(value > current.data) {
+                current = current.right
+            }
+            if(value < current.data) {
+                current = current.left
+            }
+            if(value === current.data) {
+                return i
+            }
+        }
+        return null
     }
 
     const root = buildTree()
@@ -191,7 +210,8 @@ const Tree = (arr) => {
         inOrderForEach: inOrderForEach,
         postOrderForEach: postOrderForEach,
         preOrderForEach: preOrderForEach,
-        height: height
+        height: height,
+        depth: depth
     }
 }
 
