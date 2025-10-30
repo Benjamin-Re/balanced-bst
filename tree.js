@@ -95,7 +95,9 @@ const Tree = (arr) => {
 
     // returns the node with the given value.
     function findValue(value) {
-        if(typeof value !== 'number') { throw new Error('provide number value')}
+        if (typeof value !== 'number') {
+            throw new Error('provide number value')
+        }
         let current = root
         while (current) {
             if (current.data === value) {
@@ -122,10 +124,10 @@ const Tree = (arr) => {
         let queue = [root]
         while (queue.length > 0) {
             const current = queue.shift()
-            cb(current)
             if (current.left) {
                 queue.push(current.left)
             }
+            cb(current)
             if (current.right) {
                 queue.push(current.right)
             }
@@ -137,7 +139,9 @@ const Tree = (arr) => {
         if (!cb) {
             throw new Error('A callback needs to be provided')
         }
-        if(!node) {return}
+        if (!node) {
+            return
+        }
         inOrderForEach(cb, node.left)
         cb(node)
         inOrderForEach(cb, node.right)
@@ -147,7 +151,9 @@ const Tree = (arr) => {
         if (!cb) {
             throw new Error('A callback needs to be provided')
         }
-        if(!node) {return}
+        if (!node) {
+            return
+        }
         cb(node)
         preOrderForEach(cb, node.left)
         preOrderForEach(cb, node.right)
@@ -157,7 +163,9 @@ const Tree = (arr) => {
         if (!cb) {
             throw new Error('A callback needs to be provided')
         }
-        if(!node) {return}
+        if (!node) {
+            return
+        }
         inOrderForEach(cb, node.left)
         inOrderForEach(cb, node.right)
         cb(node)
@@ -165,37 +173,57 @@ const Tree = (arr) => {
 
     function height(value) {
         // height = the distance from the node to a leaf
-        if(!Number.isFinite(value)) { throw new Error('please provide a number for height(value)')}
+        if (!Number.isFinite(value)) {
+            throw new Error('please provide a number for height(value)')
+        }
         let node = findValue(value)
-        if(!node) return null // If the value is not found in the tree, the function should return null.
+        if (!node) return null // If the value is not found in the tree, the function should return null.
         return heightRec(node)
     }
     function heightRec(node) {
-        if(!node) return -1
+        if (!node) return -1
         // calc height of left and right subtree and return the bigger one
         let heightLeft = heightRec(node.left) + 1
         let heightRight = heightRec(node.right) + 1
-        return (heightLeft > heightRight) ? heightLeft : heightRight;
+        return heightLeft > heightRight ? heightLeft : heightRight
     }
 
     function depth(value) {
         // depth = nr edges from a node to the tree's root
-        if(!Number.isFinite(value)) { throw new Error('please provide a number for depth(value)')}
+        if (!Number.isFinite(value)) {
+            throw new Error('please provide a number for depth(value)')
+        }
         let current = root
         let i = 0
-        while(current !== null) {
+        while (current !== null) {
             i++
-            if(value > current.data) {
+            if (value > current.data) {
                 current = current.right
             }
-            if(value < current.data) {
+            else if (value < current.data) {
                 current = current.left
             }
-            if(value === current.data) {
+            else if (value === current.data) {
                 return i
             }
         }
         return null
+    }
+
+    function isBalanced() {
+        /* For every node in the tree, the height difference
+         between its left and right subtrees is no more than 1 */
+        let isBalanced = true
+        levelOrderForEach(cb)
+        function cb(node) {
+            if(!isBalanced) return false // Short circuit
+            let leftHeight = !node.left ? -1 : height(node.left.data)
+            let rightHeight = !node.right ? -1 : height(node.right.data)
+            console.log(`From the current node ${node.data} -
+                 the diff of left ${leftHeight} and right ${rightHeight} is ${leftHeight - rightHeight}`)
+            if (Math.abs(leftHeight - rightHeight) > 1) isBalanced = false
+        }
+        return isBalanced
     }
 
     const root = buildTree()
@@ -211,7 +239,8 @@ const Tree = (arr) => {
         postOrderForEach: postOrderForEach,
         preOrderForEach: preOrderForEach,
         height: height,
-        depth: depth
+        depth: depth,
+        isBalanced: isBalanced
     }
 }
 

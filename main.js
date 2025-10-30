@@ -5,13 +5,10 @@ const tree = Tree(arr)
 tree.insert(0, tree.root)
 tree.insert(6, tree.root)
 tree.insert(8, tree.root)
-tree.del(8, tree.root)
+tree.insert(0.5, tree.root)
 tree.prettyPrint(tree.root)
-// console.log(tree.findValue(1))
-// tree.levelOrderForEach(print)
-// tree.postOrderForEach(print, tree.root)
-console.log(tree.height(6))
-console.log(tree.depth(6))
+
+console.log('is the tree balanced? ' + tree.isBalanced())
 
 function print(node) {
     console.log(node.data)
